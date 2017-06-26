@@ -6,7 +6,7 @@ Most simple mysql package by go lang.
 go get github.com/superlonger/go-mysql
 
 ### Usage
-All you need is: Import, Init, Select or  Update(including Insert, Delete, Update)
+All you need is: Import, Init, Query or Exec (including Insert, Update, Delete)
 ```go
 import "github.com/superlonger/go-mysql"
 
@@ -24,7 +24,7 @@ affect, _, err := mysql.Exec("update userinfo set logintime=CURRENT_TIMESTAMP wh
 // delete data to database, return the number of rows affected
 affect, _, err = mysql.Exec("delete from userinfo where username=?", "test_username")
 
-// select datas from  database, return [][]interface{} slice
+// select datas from  database, return [][]sql.RawBytes slice
 datas, err := mysql.Query("select * from userinfo where id>=?", 5)
 ```
 There is a simple example 'test.go' in the dir 'examples'
