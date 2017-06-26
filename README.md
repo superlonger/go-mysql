@@ -12,18 +12,20 @@ import "github.com/superlonger/go-mysql"
 
 // init database, and test connect.
 err := mysql.Init("testdb_root:test_password@tcp(127.0.0.1:3306)/testdb?charset=utf8")
+// close DB when you exit
+defer mysql.Close()
 
-// insert data to database, return the number of rows affected
-affect, err := mysql.Update("insert into userinfo set username=?,password=?", "test_username", "test_password")
+// insert data to database, return the last insert id
+_, lastId, err := mysql.Exec("insert into userinfo set username=?,password=?", "test_username", "test_password")
 
 // update data to database, return the number of rows affected
-affect, err := mysql.Update("update userinfo set logintime=CURRENT_TIMESTAMP where username=? and password=?", "test_username", "test_password")
+affect, _, err := mysql.Exec("update userinfo set logintime=CURRENT_TIMESTAMP where username=? and password=?", "test_username", "test_password")
 
 // delete data to database, return the number of rows affected
-affect, err = mysql.Update("delete from userinfo where username=?", "test_username")
+affect, _, err = mysql.Exec("delete from userinfo where username=?", "test_username")
 
 // select datas from  database, return [][]interface{} slice
-datas, err := mysql.Select("select * from userinfo where id>=?", 5)
+datas, err := mysql.Query("select * from userinfo where id>=?", 5)
 ```
 There is a simple example 'test.go' in the dir 'examples'
 
